@@ -1,0 +1,44 @@
+<project name="mapnik-distiller">
+	<target name="compile">
+		<mkdir dir="build/classes"/>
+		<javac srcdir="src" destdir="build/classes" includeantruntime="false" debug="true">
+			<classpath>
+				<fileset dir="lib/jar">
+					<include name="*.jar"/>
+				</fileset>
+				<fileset dir="lib/jts">
+					<include name="*.jar"/>
+				</fileset>
+				<fileset dir="build/depend">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="clean">
+		<delete dir="build"/>
+	</target>
+	
+	<!-- Build dependencies -->
+	<property name="depend.dir" location="build/depend"/>
+	<property name="mapnik-jni.dir" location="../external/mapnik-jni"/>
+	<property name="sqlite4java.dir" location="../external/sqlite4java-custom"/>
+	
+	<target name="-depend-init">
+		<mkdir dir="${depend.dir}"/>	
+	</target>
+	<target name="-depend-mapnik-jni" depends="-depend-init">
+		<ant dir="${mapnik-jni.dir}" target="all" inheritall="false"/>
+		<copy todir="${depend.dir}">
+			<fileset dir="${mapnik-jni.dir}/build/dist"/>
+		</copy>
+	</target>
+	<target name="-depend-sqlite4java" depends="-depend-init">
+		<ant dir="${sqlite4java.dir}/custom" target="all" inheritall="false"/>
+		<copy todir="${depend.dir}">
+			<fileset dir="${sqlite4java.dir}/custom/build/dist"/>
+		</copy>
+	</target>
+	<target name="depend" depends="-depend-mapnik-jni,-depend-sqlite4java"/>
+</project>

@@ -1,0 +1,12 @@
+# Generate base distillation
+./rundistiller.sh ../external/mapquest-style/mapquest-us.xml mqnafull mqmap
+
+# Detail level 2
+./rundistiller.sh ../external/mapquest-style/mapquest-us.xml mqnafull mqmap_dl2 9.5
+
+
+./rundistiller.sh ../external/mapquest-style/mapquest-us.xml output/mqna
+
+./rundistiller.sh ../external/mapquest-style/mapquest-us.xml output/mqna1
+
+
